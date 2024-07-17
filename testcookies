@@ -1,0 +1,33 @@
+static testCookies = async (req, res) => {
+    try {
+        // Set the cookie with the value "hi my name is moomal nadeem"
+        res.cookie('testCookie', 'hi my name is moomal nadeem', {
+            httpOnly: true, // The cookie is accessible only by the web server
+            secure: process.env.JWT_ACCESS_TOKEN_SECRET_KEY === 'production', // The cookie will be sent only over HTTPS if in production
+            maxAge: 24 * 60 * 60 * 1000 // 1 day (24 hours) in milliseconds
+        });
+        // Send a response indicating that the cookie has been set
+        res.send({ message: 'Cookie has been set' });
+    } catch (error) {
+        console.error("Error setting cookie:", error.message);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+};
+  static getTestCookie = (req, res) => {
+    try {
+        // Retrieve cookie values
+
+        const testCookie = req.cookies.testCookie;
+        const accessToken = req.cookies.accessToken;
+        // Log the cookies to debug
+        // console.log(req);
+        console.log(req);
+        res.json({
+            testCookie,
+            accessToken
+        });
+    } catch (error) {
+        console.error("Error retrieving cookies:", error.message);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+};
